@@ -33,35 +33,39 @@
         <div class="col-12 col-lg-4">
             <h1>Item Form</h1>
             <form id="itemForm">
-            <div class="form-group">
-                <label for="itemCode">Item Code</label>
-                <input name="code" class="form-control" id="itemCode" type="text">
-                <span class="control-error" id="lblCode"></span>
-            </div>
-            <div class="form-group">
-                <label for="itemName">Item Name</label>
-                <input name="description" class="form-control" id="itemName" type="text">
-                <span class="control-error" id="lblname"></span>
-            </div>
-            <div class="form-group">
-                <label for="itemQty">Item Qty</label>
-                <input name="qty" class="form-control" id="itemQty" type="text">
-                <span class="control-error" id="lblqty"></span>
-            </div>
-            <div class="form-group">
-                <label for="itemPrice">Unit Price</label>
-                <input name="unitPrice" class="form-control" id="itemPrice" type="text">
-                <span class="control-error" id="lblprice"></span>
-            </div>
-            </form>
-            <div class="btn-group">
-                <button form="itemForm" formmethod="post"  formaction="item?option=add" class="btn btn-primary" id="btnItem">Add Item</button>
-                <button form="itemForm" formmethod="post"  formaction="item?option=delete" class="btn btn-danger" id="btnItemDelete">Remove</button>
-                <button form="itemForm" formmethod="post"  formaction="item?option=update" class="btn btn-warning" id="btnItemUpdate">Update</button>
-                <button type="button" class="btn btn-success" id="btnGetAll">Get All</button>
-                <button form="itemForm" type="reset" class="btn btn-danger" id="btn-clear">Clear All</button>
-            </div>
+                <div class="form-group">
+                    <label for="itemCode">Item Code</label>
+                    <input name="code" class="form-control" id="itemCode" type="text">
+                    <span class="control-error" id="lblCode"></span>
+                </div>
+                <div class="form-group">
+                    <label for="itemName">Item Name</label>
+                    <input name="description" class="form-control" id="itemName" type="text">
+                    <span class="control-error" id="lblname"></span>
+                </div>
+                <div class="form-group">
+                    <label for="itemQty">Item Qty</label>
+                    <input name="qty" class="form-control" id="itemQty" type="text">
+                    <span class="control-error" id="lblqty"></span>
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice">Unit Price</label>
+                    <input name="unitPrice" class="form-control" id="itemPrice" type="text">
+                    <span class="control-error" id="lblprice"></span>
+                </div>
 
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="btnItem">Add Item</button>
+                    <button form="itemForm" formmethod="post" formaction="item?option=delete" class="btn btn-danger"
+                            id="btnItemDelete">Remove
+                    </button>
+                    <button form="itemForm" formmethod="post" formaction="item?option=update" class="btn btn-warning"
+                            id="btnItemUpdate">Update
+                    </button>
+                    <button type="button" class="btn btn-success" id="btnGetAll">Get All</button>
+                    <button form="itemForm" type="reset" class="btn btn-danger" id="btn-clear">Clear All</button>
+                </div>
+            </form>
         </div>
         <div class="col-12 col-lg-8 mt-3">
             <table class="table table-bordered table-hover">
@@ -84,18 +88,42 @@
 <script src="../assets/js/jquery-3.7.0.min.js"></script>
 
 <script>
-    $("#btnGetAll").click(function(){
+    getAllItems();
+
+    $("#btnGetAll").click(function () {
+        getAllItems();
+    });
+
+    function getAllItems() {
         $("#tblItem").empty();
 
         $.ajax({
-            url:'item',
-            success:function (res){
+            url: 'item',
+            success: function (res) {
                 console.log(res);
 
                 for (let item of res) {
-                    let row=`<tr><td>${item.code}</td><td>${item.name}</td><td>${item.qtyOnHand}</td><td>${item.unitPrice}</td></tr>`;
+                    let row = `<tr><td>${item.code}</td><td>${item.description}</td><td>${item.qtyOnHand}</td><td>${item.unitPrice}</td></tr>`;
                     $("#tblItem").append(row);
                 }
+            }
+        });
+    }
+
+    $("#btnItem").click(function () {
+        let formData = $("#itemForm").serialize();
+        console.log(formData)
+
+        $.ajax({
+            url: 'item',
+            method: "post",
+            data: formData,
+            success: function (res) {
+                alert(res.message);
+                getAllItems();
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
             }
         });
     });
