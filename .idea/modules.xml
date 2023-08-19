@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Java-EE-Assignments.iml" filepath="$PROJECT_DIR$/Java-EE-Assignments.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Json-with-Ajax/Json-with-Ajax.iml" filepath="$PROJECT_DIR$/Json-with-Ajax/Json-with-Ajax.iml" />
+    </modules>
+  </component>
+</project>
