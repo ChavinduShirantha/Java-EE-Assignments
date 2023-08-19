@@ -84,8 +84,7 @@
     </section>
 </main>
 
-
-<script src="../assets/js/jquery-3.6.1.min.js"></script>
+<script src="../assets/js/jquery-3.7.0.min.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 
 <script>
@@ -95,7 +94,7 @@
         getAllCustomers();
     });
 
-    function getAllCustomers(){
+    function getAllCustomers() {
         $("#tblCustomer").empty();
 
         $.ajax({
@@ -116,14 +115,14 @@
         console.log(formData)
 
         $.ajax({
-            url: 'customer?option=add',
+            url: 'customer',
             method: "post",
             data: formData,
             success: function (res) {
                 alert(res.message);
                 getAllCustomers();
             },
-            error:function (error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
             }
         });
@@ -131,15 +130,18 @@
 
     $("#btnCusDelete").click(function () {
         let formData = $("#customerForm").serialize();
-
+        console.log(formData)
         $.ajax({
             url: 'customer',
             method: "delete",
             data: formData,
             success: function (res) {
+                alert(res.message);
                 getAllCustomers();
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
             }
-
         });
     });
 
@@ -147,20 +149,21 @@
         let formData = $("#customerForm").serialize();
 
         $.ajax({
-            url: 'customer?option=update',
-            method: "post",
+            url: 'customer',
+            method: "put",
             data: formData,
             success: function (res) {
+                alert(res.message);
                 getAllCustomers();
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
             }
         });
     });
 
 </script>
 
-<!--bind a event on btn GetAll btn-->
-<!--send ajax request to the customer servlet using jQuery-->
 
-<!--when the response received catch it and set it to the table-->
 </body>
 </html>
