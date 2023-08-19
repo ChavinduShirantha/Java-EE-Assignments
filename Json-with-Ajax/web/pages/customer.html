@@ -129,12 +129,11 @@
     });
 
     $("#btnCusDelete").click(function () {
-        let formData = $("#customerForm").serialize();
-        console.log(formData)
+        let id = $("#txtCustomerID").val();
+
         $.ajax({
-            url: 'customer',
+            url: "customer?id=" + id,
             method: "delete",
-            data: formData,
             success: function (res) {
                 alert(res.message);
                 getAllCustomers();
@@ -143,7 +142,9 @@
                 alert(error.responseJSON.message);
             }
         });
+
     });
+
 
     $("#btnUpdate").click(function () {
         let formData = $("#customerForm").serialize();

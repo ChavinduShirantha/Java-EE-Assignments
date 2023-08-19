@@ -2,6 +2,7 @@ package lk.ijse.jsp.servlet;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 
 /**
@@ -94,10 +96,7 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         String cusID = req.getParameter("cusID");
-        String cusName = req.getParameter("cusName");
-        String cusAddress = req.getParameter("cusAddress");
-        String cusSalary = req.getParameter("cusSalary");
+        String id = req.getParameter("cusID");
 
         resp.addHeader("Content-Type", "application/json");
 
@@ -105,8 +104,8 @@ public class CustomerServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/webPos", "root", "1234");
 
-            PreparedStatement pstm = connection.prepareStatement("delete from customer where id=?");
-            pstm.setObject(1, cusID);
+            PreparedStatement pstm = connection.prepareStatement("DELETE from customer where id=?");
+            pstm.setObject(1, id);
 
             if (pstm.executeUpdate() > 0) {
                 JsonObjectBuilder response = Json.createObjectBuilder();
@@ -116,8 +115,6 @@ public class CustomerServlet extends HttpServlet {
                 resp.setStatus(200);
                 resp.getWriter().print(response.build());
             }
-
-
         } catch (ClassNotFoundException | SQLException e) {
             JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
             objectBuilder.add("state", "Error");
@@ -163,6 +160,5 @@ public class CustomerServlet extends HttpServlet {
             resp.setStatus(400);
             resp.getWriter().print(objectBuilder.build());
         }
-
     }
 }
