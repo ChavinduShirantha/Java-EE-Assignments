@@ -132,7 +132,7 @@
         let id = $("#txtCustomerID").val();
 
         $.ajax({
-            url: "customer?id=" + id,
+            url: "customer?cusID=" + id,
             method: "delete",
             success: function (res) {
                 alert(res.message);
