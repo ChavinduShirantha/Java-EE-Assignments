@@ -148,7 +148,7 @@
         let price = $("#itemPrice").val();
 
         $.ajax({
-            url: 'item?code='+code+"&description="+name+"&qty="+qty+"&unitPrice="+price,
+            url: 'item?code=' + code + "&description=" + name + "&qty=" + qty + "&unitPrice=" + price,
             method: "put",
             success: function (res) {
                 alert(res.message);

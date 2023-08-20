@@ -136,12 +136,12 @@ public class ItemServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/webPos", "root", "1234");
 
-            PreparedStatement pstm3 = connection.prepareStatement("update Item set description=?,qtyOnHand=?,unitPrice=? where code=?");
-            pstm3.setObject(4, code);
-            pstm3.setObject(1, name);
-            pstm3.setObject(2, qty);
-            pstm3.setObject(3, price);
-            if (pstm3.executeUpdate() > 0) {
+            PreparedStatement pstm = connection.prepareStatement("update Item set description=?,qtyOnHand=?,unitPrice=? where code=?");
+            pstm.setObject(4, code);
+            pstm.setObject(1, name);
+            pstm.setObject(2, qty);
+            pstm.setObject(3, price);
+            if (pstm.executeUpdate() > 0) {
                 JsonObjectBuilder response = Json.createObjectBuilder();
                 response.add("state", "OK");
                 response.add("message", "Successfully Updated ! ");
