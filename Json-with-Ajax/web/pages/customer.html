@@ -147,12 +147,14 @@
 
 
     $("#btnUpdate").click(function () {
-        let formData = $("#customerForm").serialize();
+        let id = $("#txtCustomerID").val();
+        let name = $("#txtCustomerName").val();
+        let address = $("#txtCustomerAddress").val();
+        let salary = $("#txtCustomerSalary").val();
 
         $.ajax({
-            url: 'customer',
+            url: 'customer?cusID='+id+"&cusName="+name+"&cusAddress="+address+"&cusSalary="+salary,
             method: "put",
-            data: formData,
             success: function (res) {
                 alert(res.message);
                 getAllCustomers();
