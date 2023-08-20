@@ -125,6 +125,37 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String code = req.getParameter("code");
+        String name = req.getParameter("description");
+        String qty = req.getParameter("qty");
+        String price = req.getParameter("unitPrice");
 
+        resp.addHeader("Content-Type", "application/json");
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/webPos", "root", "1234");
+
+            PreparedStatement pstm3 = connection.prepareStatement("update Item set description=?,qtyOnHand=?,unitPrice=? where code=?");
+            pstm3.setObject(4, code);
+            pstm3.setObject(1, name);
+            pstm3.setObject(2, qty);
+            pstm3.setObject(3, price);
+            if (pstm3.executeUpdate() > 0) {
+                JsonObjectBuilder response = Json.createObjectBuilder();
+                response.add("state", "OK");
+                response.add("message", "Successfully Updated ! ");
+                response.add("data", "");
+                resp.setStatus(200);
+                resp.getWriter().print(response.build());
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("state", "Error");
+            objectBuilder.add("message", e.getMessage());
+            objectBuilder.add("data", "");
+            resp.setStatus(400);
+            resp.getWriter().print(objectBuilder.build());
+        }
     }
 }
